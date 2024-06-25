@@ -300,6 +300,10 @@ el.videoBtn.addEventListener('click', event => {
         detectVideo(false)
     }
 })
+window.addEventListener('paste', e => {
+    el.fileInput.files = e.clipboardData.files;
+    el.fileInput.dispatchEvent(new Event('change'));
+});
 
 </script>
 </body>
