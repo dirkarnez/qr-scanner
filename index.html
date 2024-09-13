@@ -150,11 +150,9 @@
 
     el.usingOffscreenCanvas.innerText = usingOffscreenCanvas ? 'yes' : 'no'
 
-
     function isOffscreenCanvasWorking() {
       try {
         return Boolean((new OffscreenCanvas(1, 1)).getContext('2d'))
-
       } catch {
         return false
       }
@@ -234,7 +232,6 @@
              
             // } 
             
-            el.links.innerHTML = "";
             symbols.forEach(symbol => {
               const li = document.createElement("li");
               if (isValidURL(symbol.rawValue)) {
