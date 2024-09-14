@@ -135,6 +135,8 @@
     </div>
   </div>
   <script>
+    var values = [];
+
     const
       el = {},
       usingOffscreenCanvas = isOffscreenCanvasWorking();
@@ -230,16 +232,23 @@
             //   li.appendChild(document.createTextNode("Four"));
 
              
-            // } 
+            // }
+
+            el.links.innerHTML = "";
             
-            symbols.forEach(symbol => {
+            values = [...new Set([...values, ...symbols.map(symbol => symbol.rawValue)])];
+
+            debugger;
+            values.forEach(value => {
               const li = document.createElement("li");
-              if (isValidURL(symbol.rawValue)) {
+              if (isValidURL(value)) {
                 const a = document.createElement("a");
-                a.href = symbol.rawValue;
-                a.innerText = symbol.rawValue;
+                a.href = value;
+                a.innerText = value;
                 a.target = "_self";
                 li.appendChild(a);
+              } else {
+                li.innerText = value;
               }
               el.links.appendChild(li);
             });
