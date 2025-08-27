@@ -10,3 +10,5 @@
 
 ### TODOs
 - [ ] PWA
+- [ ] [ZXing TypeScript | Decoding from camera stream](https://zxing-js.github.io/library/examples/qr-camera/)
+  - [zxing-js/browser: ZXing for JS's browser layer with decoding implementations for browser.](https://github.com/zxing-js/browser)
