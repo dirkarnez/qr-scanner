@@ -182,7 +182,7 @@
                       if (event.data.type !== 'qrResult') {
                           return;
                       }
-                      onMessage(event.data);
+                      onMessage(event.data.data);
                   };
               } else {
                   console.log("exisitnng")
@@ -190,8 +190,10 @@
               return worker
           }
       
-        return (imageData) => new Promise(res => {
-              getScanQROrgScannerWorker(res).postMessage({type: "decode", data: imageData}); /*, [ imageData.data.buffer ]);*/
+        return (imageData) => new Promise((res, rej) => {
+              getScanQROrgScannerWorker(data => {
+                res(data)
+              }).postMessage({type: "decode", data: imageData}); /*, [ imageData.data.buffer ]);*/
         })
       })();
 
@@ -225,7 +227,7 @@
           imageData = offCtx.getImageData(0, 0, canvas.width, canvas.height),
           afterGetImageData = performance.now();
         
-        scanUsingQROrgScanner(imageData).then(data => {
+        scanUsingQROrgScanner(offCtx.getImageData(0, 0, canvas.width, canvas.height)).then(data => {
           debugger
         });
 
