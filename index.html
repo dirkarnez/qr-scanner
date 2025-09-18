@@ -84,6 +84,7 @@
 
 <body>
   <div class="container">
+    <h3><a href="https://github.com/dirkarnez/qr-scanner">dirkarnez/qr-scanner</a></h3>
     <h4><a href="https://github.com/undecaf/zbar-wasm">zbar-wasm</a> example</h4>
 
     <h5>Image source</h5>
@@ -202,7 +203,7 @@
         	const getScanQROrgScannerWorker = (onMessage) => {
                 if (!worker) {
                     console.log("newing");
-                    worker = new Worker("https://scanqr.org/scanQRCode/qr-scanner-master/qr-scanner-worker.min.js");
+                    worker = new Worker("./qr-scanner-worker.min.js");
                     worker.onmessage = function(e) {
                         onMessage(e.data);
                     };
