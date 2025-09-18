@@ -167,6 +167,34 @@
       )
     }
 
+    const scanUsingQROrgScanner = (() => {
+        let worker = null;
+      
+        const getScanQROrgScannerWorker = (onMessage) => {
+              if (!worker) {
+                  console.log("newing");
+                  worker = new Worker("./qr-scanner-worker.min.js");
+                  worker.postMessage({
+                      type: "inversionMode",
+                      data: "both"
+                  });
+                  worker.onmessage = function(event) {
+                      if (event.data.type !== 'qrResult') {
+                          return;
+                      }
+                      onMessage(event.data);
+                  };
+              } else {
+                  console.log("exisitnng")
+              }
+              return worker
+          }
+      
+        return (imageData) => new Promise(res => {
+              getScanQROrgScannerWorker(res).postMessage({type: 'decode  ', data: imageData}, [ imageData.data.buffer ]);
+        })
+      })();
+
     function detect(source) {
       const
         afterFunctionCalled = performance.now(),
@@ -196,29 +224,8 @@
           afterDrawImage = performance.now(),
           imageData = offCtx.getImageData(0, 0, canvas.width, canvas.height),
           afterGetImageData = performance.now();
-
-        const scanUsingQROrgScanner = (() => {
-        	let worker = null;
         
-        	const getScanQROrgScannerWorker = (onMessage) => {
-                if (!worker) {
-                    console.log("newing");
-                    worker = new Worker("./qr-scanner-worker.min.js");
-                    worker.onmessage = function(e) {
-                        onMessage(e.data);
-                    };
-                } else {
-                    console.log("exisitnng")
-                }
-                return worker
-            }
-        
-        	return (imageData) => new Promise(res => {
-                getScanQROrgScannerWorker(res).postMessage({type: 'inversionMode', data: 'both'}, imageData);
-        	})
-        })();
-        
-        scanUsingQROrgScanner(imageData).then(a => {
+        scanUsingQROrgScanner(imageData).then(data => {
           debugger
         });
 
