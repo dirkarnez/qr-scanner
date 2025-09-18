@@ -210,7 +210,7 @@
             offCanvas = new OffscreenCanvas(width, height)
           }
 
-          return offCanvas.getContext('2d')
+          return offCanvas.getContext('2d', { willReadFrequently: true })
         }
       }
 
@@ -227,9 +227,10 @@
           imageData = offCtx.getImageData(0, 0, canvas.width, canvas.height),
           afterGetImageData = performance.now();
         
-        scanUsingQROrgScanner(offCtx.getImageData(0, 0, canvas.width, canvas.height)).then(data => {
-          debugger
-        });
+        scanUsingQROrgScanner(offCtx.getImageData(0, 0, canvas.width, canvas.height))
+          .then(data => {
+            console.log(data);
+          });
 
         return zbarWasm
           .scanImageData(imageData)
