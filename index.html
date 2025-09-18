@@ -160,7 +160,6 @@
       }
     }
 
-
     function formatNumber(number, fractionDigits = 1) {
       return number.toLocaleString(
         undefined, { minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits }
@@ -196,6 +195,34 @@
           afterDrawImage = performance.now(),
           imageData = offCtx.getImageData(0, 0, canvas.width, canvas.height),
           afterGetImageData = performance.now();
+
+        const scanUsingQROrgScanner = (() => {
+        	let worker = null;
+        
+        	const getScanQROrgScannerWorker = (onMessage) => {
+                if (!worker) {
+                    console.log("newing");
+                    worker = new Worker("https://scanqr.org/scanQRCode/qr-scanner-master/qr-scanner-worker.min.js");
+                    worker.onmessage = function(e) {
+                        onMessage(e.data);
+                    };
+                } else {
+                    console.log("exisitnng")
+                }
+                return worker
+            }
+        
+        	return (imageData) => new Promise(res => {
+                getScanQROrgScannerWorker(res).postMessage({
+                    type: "decode",
+                    data: imageData
+                });
+        	})
+        })();
+        
+        scanUsingQROrgScanner(imageData).then(a => {
+          debugger
+        });
 
         return zbarWasm
           .scanImageData(imageData)
