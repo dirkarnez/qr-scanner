@@ -191,7 +191,7 @@
           }
       
         return (imageData) => new Promise(res => {
-              getScanQROrgScannerWorker(res).postMessage({type: 'decode  ', data: imageData}, [ imageData.data.buffer ]);
+              getScanQROrgScannerWorker(res).postMessage({type: 'decode  ', data: imageData}); /*, [ imageData.data.buffer ]);*/
         })
       })();
 
