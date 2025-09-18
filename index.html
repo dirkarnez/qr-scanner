@@ -214,10 +214,7 @@
             }
         
         	return (imageData) => new Promise(res => {
-                getScanQROrgScannerWorker(res).postMessage({
-                    type: "decode",
-                    data: imageData
-                });
+                getScanQROrgScannerWorker(res).postMessage({type: 'inversionMode', data: 'both'}, imageData);
         	})
         })();
         
